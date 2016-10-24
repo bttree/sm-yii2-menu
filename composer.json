@@ -1,0 +1,32 @@
+{
+  "name": "koma136/sm-yii2-menu",
+  "description": "SM menu",
+  "keywords": [
+    "yii2",
+    "yii2-rbac"
+  ],
+  "minimum-stability": "stable",
+  "homepage": "https://bitbucket.org/koma136/sm-yii2-menu",
+  "type": "yii2-extension",
+  "license": "BSD-3",
+  "authors": [
+    {
+      "name": "Anton Sitnikov",
+      "email": "x525vx@gmail.com",
+      "homepage": "http://sitemaket.ru"
+    }
+  ],
+  "require": {
+    "yiisoft/yii2": "~2.0.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "koma136\\smymenu\\": ""
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "v1.0.1"
+    }
+  }
+}
