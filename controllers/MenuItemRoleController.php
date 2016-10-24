@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\controllers;
+namespace koma136\smymenu\controllers;
 
 use Yii;
 use koma136\smymenu\models\MenuItemRole;
