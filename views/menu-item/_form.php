@@ -28,7 +28,7 @@ use koma136\smymenu\models\MenuItemRole;
             <?= $form->field($model, 'sort')->textInput() ?>
 
             <div class="form-group">
-                <label class="control-label"><?= Yii::t('frontend', 'Roles') ?></label>
+                <label class="control-label"><?= Yii::t('frontend', 'Permissions') ?></label>
                 <?= Select2::widget([
                                         'name'    => 'Roles[]',
                                         'data'    => MenuItemRole::getYiiRoles(),

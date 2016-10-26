@@ -27,7 +27,7 @@ class MenuItemController extends Controller
                 'rules' => [
                     [
                         'allow'   => true,
-                        'roles'   => ['admin'],
+                        'roles'   => ['smymenu.all'],
                     ],
                 ],
             ],

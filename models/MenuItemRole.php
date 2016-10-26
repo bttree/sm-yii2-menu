@@ -66,7 +66,7 @@ class MenuItemRole extends ActiveRecord
     public static function getYiiRoles($roles = []) {
         $result = [];
         if(empty($roles)) {
-            $roles = Yii::$app->authManager->getRoles();
+            $roles = Yii::$app->authManager->getPermissions();
         }
         foreach ($roles as $role) {
             $result[$role->name] = Yii::t('frontend', ucfirst($role->name));
