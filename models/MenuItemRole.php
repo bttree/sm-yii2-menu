@@ -43,10 +43,10 @@ class MenuItemRole extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => Yii::t('frontend', 'ID'),
-            'menu_item_id' => Yii::t('frontend', 'Menu Item ID'),
-            'role_yii'     => Yii::t('frontend', 'Role Yii'),
-            'role_kohana'  => Yii::t('frontend', 'Role Kohana'),
+            'id'           => Yii::t('smy.menu', 'ID'),
+            'menu_item_id' => Yii::t('smy.menu', 'Menu Item ID'),
+            'role_yii'     => Yii::t('smy.menu', 'Role Yii'),
+            'role_kohana'  => Yii::t('smy.menu', 'Role Kohana'),
         ];
     }
 
@@ -69,7 +69,7 @@ class MenuItemRole extends ActiveRecord
             $roles = Yii::$app->authManager->getPermissions();
         }
         foreach ($roles as $role) {
-            $result[$role->name] = Yii::t('frontend', ucfirst($role->name));
+            $result[$role->name] = Yii::t('smy.menu', ucfirst($role->name));
         }
 
         return $result;

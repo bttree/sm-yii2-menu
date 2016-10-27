@@ -19,7 +19,7 @@ use koma136\smymenu\models\Menu;
         <?= $form->field($model, 'status')->dropDownList(Menu::getStatusArray()) ?>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Create') : Yii::t('frontend', 'Update'),
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('smy.menu', 'Create') : Yii::t('smy.menu', 'Update'),
                                    ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
 

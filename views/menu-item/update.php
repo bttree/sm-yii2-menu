@@ -6,14 +6,14 @@ use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $model koma136\smymenu\models\MenuItem */
 
-$this->title                   = Yii::t('frontend',
+$this->title                   = Yii::t('smy.menu',
                                         'Update {modelClass}: ',
                                         [
                                             'modelClass' => 'Menu Item',
                                         ]) . $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('frontend', 'Menu Items'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('smy.menu', 'Menu Items'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = Yii::t('frontend', 'Update');
+$this->params['breadcrumbs'][] = Yii::t('smy.menu', 'Update');
 ?>
 <div class="menu-item-update">
     <?= $this->render('_form',

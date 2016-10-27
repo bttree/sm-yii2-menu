@@ -21,7 +21,7 @@ use koma136\smymenu\models\KohanaRole;
         <?= $form->field($model, 'role_kohana')->dropDownList(KohanaRole::getAllArrayForSelect(), ['prompt'=>'---']) ?>
 
         <div class="form-group">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Add') : Yii::t('frontend', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('smy.menu', 'Add') : Yii::t('smy.menu', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>

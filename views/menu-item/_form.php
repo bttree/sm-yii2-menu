@@ -28,13 +28,13 @@ use koma136\smymenu\models\MenuItemRole;
             <?= $form->field($model, 'sort')->textInput() ?>
 
             <div class="form-group">
-                <label class="control-label"><?= Yii::t('frontend', 'Permissions') ?></label>
+                <label class="control-label"><?= Yii::t('smy.menu', 'Permissions') ?></label>
                 <?= Select2::widget([
                                         'name'    => 'Roles[]',
                                         'data'    => MenuItemRole::getYiiRoles(),
                                         'value'   => ArrayHelper::map($model->roles, 'id', 'role_yii'),
                                         'options' => [
-                                            'placeholder' => Yii::t('frontend', 'Select roles...'),
+                                            'placeholder' => Yii::t('smy.menu', 'Select roles...'),
                                             'multiple'    => true
                                         ],
                                     ]);
@@ -42,7 +42,7 @@ use koma136\smymenu\models\MenuItemRole;
             </div>
 
             <div class="form-group">
-                <?= Html::submitButton($model->isNewRecord ? Yii::t('frontend', 'Add') : Yii::t('frontend', 'Update'),
+                <?= Html::submitButton($model->isNewRecord ? Yii::t('smy.menu', 'Add') : Yii::t('smy.menu', 'Update'),
                                        ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
             </div>
 
