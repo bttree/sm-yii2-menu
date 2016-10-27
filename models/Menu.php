@@ -48,10 +48,10 @@ class Menu extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'     => Yii::t('frontend', 'ID'),
-            'name'   => Yii::t('frontend', 'Name'),
-            'code'   => Yii::t('frontend', 'Code'),
-            'status' => Yii::t('frontend', 'Status'),
+            'id'     => Yii::t('smy.menu', 'ID'),
+            'name'   => Yii::t('smy.menu', 'Name'),
+            'code'   => Yii::t('smy.menu', 'Code'),
+            'status' => Yii::t('smy.menu', 'Status'),
         ];
     }
 
@@ -89,8 +89,8 @@ class Menu extends \yii\db\ActiveRecord
     public static function getStatusArray()
     {
         return [
-            self::STATUS_ACTIVE   => Yii::t('frontend', 'Active'),
-            self::STATUS_DISABLED => Yii::t('frontend', 'Disabled'),
+            self::STATUS_ACTIVE   => Yii::t('smy.menu', 'Active'),
+            self::STATUS_DISABLED => Yii::t('smy.menu', 'Disabled'),
         ];
     }
 

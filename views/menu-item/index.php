@@ -8,12 +8,12 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title                   = Yii::t('frontend', 'Menu Items');
+$this->title                   = Yii::t('smy.menu', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="menu-item-index">
     <p>
-        <?= Html::a(Yii::t('frontend', 'Create Menu Item'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('smy.menu', 'Create Menu Item'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
     <?php Pjax::begin(); ?>
     <?= GridView::widget(

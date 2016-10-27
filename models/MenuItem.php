@@ -60,10 +60,10 @@ class MenuItem extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'      => Yii::t('frontend', 'ID'),
-            'title'   => Yii::t('frontend', 'Title'),
-            'url'     => Yii::t('frontend', 'Url'),
-            'options' => Yii::t('frontend', 'Options'),
+            'id'      => Yii::t('smy.menu', 'ID'),
+            'title'   => Yii::t('smy.menu', 'Title'),
+            'url'     => Yii::t('smy.menu', 'Url'),
+            'options' => Yii::t('smy.menu', 'Options'),
         ];
     }
 
