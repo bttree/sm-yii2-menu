@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string       $options
  * @property string       $before_label
  * @property string       $after_label
+ * @property integer      $sort
  *
  * @property MenuItemRole[] $roles
  */
@@ -60,10 +61,13 @@ class MenuItem extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'      => Yii::t('smy.menu', 'ID'),
-            'title'   => Yii::t('smy.menu', 'Title'),
-            'url'     => Yii::t('smy.menu', 'Url'),
-            'options' => Yii::t('smy.menu', 'Options'),
+            'id'           => Yii::t('smy.menu', 'ID'),
+            'title'        => Yii::t('smy.menu', 'Title'),
+            'url'          => Yii::t('smy.menu', 'Url'),
+            'options'      => Yii::t('smy.menu', 'Options'),
+            'before_label' => Yii::t('smy.menu', 'Before Label'),
+            'after_label'  => Yii::t('smy.menu', 'After Label'),
+            'sort'         => Yii::t('smy.menu', 'Sort'),
         ];
     }
 
