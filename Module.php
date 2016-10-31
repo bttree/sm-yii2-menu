@@ -21,6 +21,7 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
+        
         if (!isset(Yii::$app->i18n->translations['smy.menu'])) {
             Yii::$app->i18n->translations['smy.menu'] = [
                 'class'          => 'yii\i18n\PhpMessageSource',
