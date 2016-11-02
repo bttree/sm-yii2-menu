@@ -1,12 +1,12 @@
 {
-  "name": "koma136/sm-yii2-menu",
+  "name": "bttree/sm-yii2-menu",
   "description": "SM menu",
   "keywords": [
     "yii2",
     "yii2-rbac"
   ],
   "minimum-stability": "stable",
-  "homepage": "https://bitbucket.org/koma136/sm-yii2-menu",
+  "homepage": "https://bitbucket.org/bttree/sm-yii2-menu",
   "type": "yii2-extension",
   "license": "BSD-3",
   "authors": [
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "koma136\\smymenu\\": ""
+      "bttree\\smymenu\\": ""
     }
   },
   "extra": {
