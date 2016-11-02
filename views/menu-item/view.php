@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model koma136\smymenu\models\MenuItem */
+/* @var $model bttree\smymenu\models\MenuItem */
 
 $this->title                   = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('smy.menu', 'Menu Items'), 'url' => ['index']];

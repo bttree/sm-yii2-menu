@@ -2,11 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use koma136\smymenu\models\MenuItem;
-use koma136\smymenu\models\KohanaRole;
+use bttree\smymenu\models\MenuItem;
+use bttree\smymenu\models\KohanaRole;
 
 /* @var $this yii\web\View */
-/* @var $model koma136\smymenu\models\MenuItemRole */
+/* @var $model bttree\smymenu\models\MenuItemRole */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -16,7 +16,7 @@ use koma136\smymenu\models\KohanaRole;
 
         <?= $form->field($model, 'menu_item_id')->dropDownList(MenuItem::getAllArrayForSelect(), ['prompt'=>'---']) ?>
 
-        <?= $form->field($model, 'role_yii')->dropDownList(\koma136\smymenu\models\MenuItemRole::getYiiRoles(), ['prompt'=>'---']) ?>
+        <?= $form->field($model, 'role_yii')->dropDownList(\bttree\smymenu\models\MenuItemRole::getYiiRoles(), ['prompt'=>'---']) ?>
 
         <?= $form->field($model, 'role_kohana')->dropDownList(KohanaRole::getAllArrayForSelect(), ['prompt'=>'---']) ?>
 

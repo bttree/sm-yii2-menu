@@ -1,6 +1,6 @@
 <?php
 
-namespace koma136\smymenu;
+namespace bttree\smymenu;
 
 use Yii;
 /**
@@ -11,7 +11,7 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'koma136\smymenu\controllers';
+    public $controllerNamespace = 'bttree\smymenu\controllers';
 
     public $userClass;
 
@@ -26,7 +26,7 @@ class Module extends \yii\base\Module
             Yii::$app->i18n->translations['smy.menu'] = [
                 'class'          => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'ru',
-                'basePath'       => '@koma136/smymenu/messages'
+                'basePath'       => '@bttree/smymenu/messages'
             ];
         }
     }

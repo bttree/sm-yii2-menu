@@ -1,9 +1,9 @@
 <?php
 
-namespace koma136\smymenu\controllers;
+namespace bttree\smymenu\controllers;
 
 use Yii;
-use koma136\smymenu\models\Menu;
+use bttree\smymenu\models\Menu;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

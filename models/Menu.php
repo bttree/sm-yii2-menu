@@ -1,6 +1,6 @@
 <?php
 
-namespace koma136\smymenu\models;
+namespace bttree\smymenu\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;

@@ -2,10 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use koma136\smymenu\models\Menu;
+use bttree\smymenu\models\Menu;
 
 /* @var $this yii\web\View */
-/* @var $model koma136\smymenu\models\Menu */
+/* @var $model bttree\smymenu\models\Menu */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 <div class="panel panel-white">

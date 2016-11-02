@@ -1,10 +1,10 @@
 <?php
 
-namespace koma136\smymenu\controllers;
+namespace bttree\smymenu\controllers;
 
-use koma136\smymenu\models\MenuItemRole;
+use bttree\smymenu\models\MenuItemRole;
 use Yii;
-use koma136\smymenu\models\MenuItem;
+use bttree\smymenu\models\MenuItem;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

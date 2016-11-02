@@ -5,11 +5,11 @@ use yii\web\View;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use kartik\widgets\Select2;
-use koma136\smymenu\models\Menu;
-use koma136\smymenu\models\MenuItemRole;
+use bttree\smymenu\models\Menu;
+use bttree\smymenu\models\MenuItemRole;
 
 /* @var $this yii\web\View */
-/* @var $model koma136\smymenu\models\MenuItem */
+/* @var $model bttree\smymenu\models\MenuItem */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

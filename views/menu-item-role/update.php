@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model koma136\smymenu\models\MenuItemRole */
+/* @var $model bttree\smymenu\models\MenuItemRole */
 
 $this->title = Yii::t('smy.menu', 'Update {modelClass}: ', [
     'modelClass' => 'Menu Item Role',
