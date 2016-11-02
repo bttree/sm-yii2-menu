@@ -4,5 +4,5 @@ Install
 ```
 #!bash
 
-./yii migrate --migrationPath=@koma136/smymenu/install/migrations
+./yii migrate --migrationPath=@bttree/smymenu/install/migrations
 ```
