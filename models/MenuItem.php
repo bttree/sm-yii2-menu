@@ -50,7 +50,7 @@ class MenuItem extends ActiveRecord
     {
         return [
             'sort' => [
-                'class' => 'common\behaviors\Sort',
+                'class' => '\bttree\smymenu\behaviors\Sort',
                 'attributeName' => 'sort'
             ]
         ];

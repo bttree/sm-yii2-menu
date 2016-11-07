@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
-use kartik\widgets\Select2;
+use kartik\select2\Select2;
 use bttree\smymenu\models\Menu;
 use bttree\smymenu\models\MenuItemRole;
 
@@ -51,9 +51,9 @@ use bttree\smymenu\models\MenuItemRole;
     </div>
 
 <?php
-$this->registerJs("
-$('#menuitem-before_label').iconpicker({placement: 'bottomLeft'});
-",
-                  View::POS_END,
-                  'my-options');
-?>
+//$this->registerJs("
+//$('#menuitem-before_label').iconpicker({placement: 'bottomLeft'});
+//",
+//                  View::POS_END,
+//                  'my-options');
+//?>

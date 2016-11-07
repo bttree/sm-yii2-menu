@@ -29,5 +29,10 @@ class Module extends \yii\base\Module
                 'basePath'       => '@bttree/smymenu/messages'
             ];
         }
+
+        //todo
+//        'gridview' =>  [
+//        'class' => '\kartik\grid\Module'
+//        ]
     }
 }

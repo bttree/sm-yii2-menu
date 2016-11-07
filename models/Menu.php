@@ -104,4 +104,49 @@ class Menu extends \yii\db\ActiveRecord
     {
         return self::findOne(['code' => $code, 'status' => self::STATUS_ACTIVE]);
     }
+
+    /**
+     * @param  string $code
+     *
+     * @return array
+     */
+    public static function getMenu($code)
+    {
+        $menu_items_request = MenuItem::find()->joinWith('menu')->joinWith('roles')->where(
+            [
+                'code'     => $code,
+                'role_yii' => null,
+            ]
+        );
+
+        if (!Yii::$app->user->isGuest) {
+            $menu_items_request->orWhere([
+                                          'role_yii' => ArrayHelper::getColumn(
+                                              Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
+                                              'name')
+                                          ]);
+        }
+
+        $menu_items_request->groupBy('menu_item.id')->orderBy('menu_item.sort');
+        $menu_items = ArrayHelper::toArray($menu_items_request->all(),
+                                           [
+                                               'bttree\smymenu\models\MenuItem' => [
+                                                   'label' => function ($menu_item) {
+                                                       return  $menu_item->before_label
+                                                               .'<p>'.
+                                                               $menu_item->title
+                                                               .'</p>'.
+                                                               $menu_item->after_label;
+                                                   },
+                                                   'url'   => function ($menu_item) {
+                                                       return [$menu_item->url];
+                                                   },
+                                               ],
+                                           ]);
+
+        if(empty($menu_items)) {
+            Yii::warning('Empty menu by code: '. $code);
+        }
+        return $menu_items;
+    }
 }
