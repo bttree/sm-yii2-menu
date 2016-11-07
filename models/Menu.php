@@ -115,15 +115,22 @@ class Menu extends \yii\db\ActiveRecord
         $menu_items_request = MenuItem::find()->joinWith('menu')->joinWith('roles')->where(
             [
                 'code'     => $code,
-                'role_yii' => null,
             ]
         );
 
         if (!Yii::$app->user->isGuest) {
-            $menu_items_request->orWhere([
-                                          'role_yii' => ArrayHelper::getColumn(
-                                              Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
-                                              'name')
+            $menu_items_request->andFilterWhere([
+                                                    'or',
+                                                    ['role_yii' => null],
+                                                    [
+                                                        'role_yii' => ArrayHelper::getColumn(
+                                                            Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
+                                                            'name')
+                                                    ]
+                                                ]);
+        } else {
+            $menu_items_request->andWhere([
+                                              'role_yii' => null,
                                           ]);
         }
 
