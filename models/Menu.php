@@ -3,6 +3,7 @@
 namespace bttree\smymenu\models;
 
 use Yii;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -127,7 +128,7 @@ class Menu extends \yii\db\ActiveRecord
         if (!Yii::$app->user->isGuest) {
             $menu_items_request->andFilterWhere([
                                                     'or',
-                                                    ['role_yii' => null],
+                                                    ['IS', 'role_yii', (new Expression('NULL'))],
                                                     [
                                                         'role_yii' => ArrayHelper::getColumn(
                                                             Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
@@ -136,11 +137,12 @@ class Menu extends \yii\db\ActiveRecord
                                                 ]);
         } else {
             $menu_items_request->andWhere([
-                                              'role_yii' => null,
+                                              ['IS', 'role_yii', (new Expression('NULL'))],
                                           ]);
         }
 
         $menu_items_request->groupBy('menu_item.id')->orderBy('menu_item.sort');
+
         $menu_items = ArrayHelper::toArray($menu_items_request->all(),
                                            [
                                                'bttree\smymenu\models\MenuItem' => [

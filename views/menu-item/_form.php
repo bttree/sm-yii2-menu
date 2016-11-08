@@ -22,7 +22,7 @@ use bttree\smymenu\models\MenuItemRole;
 
             <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
-            <?= $form->field($model, 'parent_id')->dropDownList(MenuItem::getAllArrayForSelect($model->id)) ?>
+            <?= $form->field($model, 'parent_id')->dropDownList(MenuItem::getAllArrayForSelect($model->id), ['prompt' => '---']) ?>
 
             <?= $form->field($model, 'menu_id')->dropDownList(Menu::getAllArrayForSelect()) ?>
 
