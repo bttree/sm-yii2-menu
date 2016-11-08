@@ -169,4 +169,14 @@ class Menu extends \yii\db\ActiveRecord
         }
         return $menu_items;
     }
+
+    /**
+     * @param  string  $code
+     * @param  integer $parent_id
+     *
+     * @return array
+     */
+    public static function getMenuTree($code, $parent_id) {
+        return self::getMenu($code, $parent_id);
+    }
 }
