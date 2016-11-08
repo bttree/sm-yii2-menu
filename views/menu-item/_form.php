@@ -6,6 +6,7 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use bttree\smymenu\models\Menu;
+use bttree\smymenu\models\MenuItem;
 use bttree\smymenu\models\MenuItemRole;
 
 /* @var $this yii\web\View */
@@ -20,6 +21,8 @@ use bttree\smymenu\models\MenuItemRole;
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'parent_id')->dropDownList(MenuItem::getAllArrayForSelect($model->id)) ?>
 
             <?= $form->field($model, 'menu_id')->dropDownList(Menu::getAllArrayForSelect()) ?>
 

@@ -15,6 +15,7 @@ use yii\helpers\ArrayHelper;
  * @property string       $before_label
  * @property string       $after_label
  * @property integer      $sort
+ * @property integer      $parent_id
  *
  * @property MenuItemRole[] $roles
  */
@@ -35,7 +36,7 @@ class MenuItem extends ActiveRecord
     {
         return [
             [['title', 'url', 'menu_id'], 'required'],
-            [['sort'], 'integer'],
+            [['sort', 'parent_id'], 'integer'],
             [['title', 'url', 'options', 'before_label', 'after_label'], 'string', 'max' => 255],
             [
                 ['id'],
@@ -68,6 +69,8 @@ class MenuItem extends ActiveRecord
             'before_label' => Yii::t('smy.menu', 'Before Label'),
             'after_label'  => Yii::t('smy.menu', 'After Label'),
             'sort'         => Yii::t('smy.menu', 'Sort'),
+            'parent_id'    => Yii::t('smy.menu', 'Parent'),
+            'menu_id'      => Yii::t('smy.menu', 'Menu'),
         ];
     }
 
@@ -88,11 +91,17 @@ class MenuItem extends ActiveRecord
     }
 
     /**
+     * @param integer|null $id
      * @return array
      */
-    public static function getAllArrayForSelect()
+    public static function getAllArrayForSelect($id = null)
     {
-        return ArrayHelper::map(self::find()->orderBy('id')->asArray()->all(), 'id', 'title');
+        $query = self::find();
+        if (!is_null($id)) {
+            $query->where(['!=', 'id', $id]);
+        }
+
+        return ArrayHelper::map($query->orderBy('id')->asArray()->all(), 'id', 'title');
     }
 
     /**
@@ -107,5 +116,21 @@ class MenuItem extends ActiveRecord
         }
 
         return parent::beforeSave($insert);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMenuChild()
+    {
+        return $this->hasMany(MenuItem::className(), ['parent_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getParent()
+    {
+        return $this->hasOne(MenuItem::className(), ['id' => 'parent_id']);
     }
 }

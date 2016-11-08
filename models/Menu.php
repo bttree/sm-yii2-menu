@@ -106,17 +106,23 @@ class Menu extends \yii\db\ActiveRecord
     }
 
     /**
-     * @param  string $code
+     * @param  string  $code
+     * @param  integer $parent_id
+     * @param  boolean $all
      *
      * @return array
      */
-    public static function getMenu($code)
+    public static function getMenu($code, $parent_id = null, $all = true)
     {
         $menu_items_request = MenuItem::find()->joinWith('menu')->joinWith('roles')->where(
             [
                 'code'     => $code,
             ]
         );
+
+        $menu_items_request->andWhere([
+                                          'parent_id' => $parent_id,
+                                      ]);
 
         if (!Yii::$app->user->isGuest) {
             $menu_items_request->andFilterWhere([
@@ -147,6 +153,13 @@ class Menu extends \yii\db\ActiveRecord
                                                    },
                                                    'url'   => function ($menu_item) {
                                                        return [$menu_item->url];
+                                                   },
+                                                   'items' => function ($menu_item) use ($code, $all) {
+                                                       if($all) {
+                                                           return self::getMenu($code, $menu_item->id, true);
+                                                       } else {
+                                                           return [];
+                                                       }
                                                    },
                                                ],
                                            ]);

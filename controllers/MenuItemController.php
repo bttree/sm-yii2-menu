@@ -5,6 +5,7 @@ namespace bttree\smymenu\controllers;
 use bttree\smymenu\models\MenuItemRole;
 use Yii;
 use bttree\smymenu\models\MenuItem;
+use bttree\smymenu\models\MenuItemSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -66,14 +67,13 @@ class MenuItemController extends Controller
             }
         }
 
-        $dataProvider = new ActiveDataProvider([
-                                                   'query' => MenuItem::find(),
-                                               ]);
+        $searchModel = new MenuItemSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index',
-                             [
-                                 'dataProvider' => $dataProvider,
-                             ]);
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
     }
 
     /**
