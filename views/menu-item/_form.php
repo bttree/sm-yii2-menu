@@ -54,9 +54,10 @@ use bttree\smymenu\models\MenuItemRole;
     </div>
 
 <?php
-//$this->registerJs("
-//$('#menuitem-before_label').iconpicker({placement: 'bottomLeft'});
-//",
-//                  View::POS_END,
-//                  'my-options');
-//?>
+$this->registerJsFile('@bttree/smymenu/assets/js/fontawesome-iconpicker/dist/js/fontawesome-iconpicker.min.js');
+$this->registerJs("
+$('#menuitem-before_label').iconpicker({placement: 'bottomLeft'});
+",
+                  View::POS_END,
+                  'my-options');
+?>
