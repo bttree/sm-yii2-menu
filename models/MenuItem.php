@@ -111,8 +111,10 @@ class MenuItem extends ActiveRecord
     public function beforeSave($insert)
     {
         //todo сделать более гибко!
-        if (strpos($this->before_label, 'fa-') !== false) {
-            $this->before_label = '<span class="menu-icon"><i  aria-hidden="true" class="fa '. $this->before_label .'"></i></span>';
+
+        $before_label = $this->before_label;
+        if ($before_label == strip_tags($before_label) && strpos($before_label, 'fa-') !== false) {
+            $this->before_label = '<span class="menu-icon"><i  aria-hidden="true" class="fa '. $before_label .'"></i></span>';
         }
 
         return parent::beforeSave($insert);
