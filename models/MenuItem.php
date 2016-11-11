@@ -16,11 +16,15 @@ use yii\helpers\ArrayHelper;
  * @property string       $after_label
  * @property integer      $sort
  * @property integer      $parent_id
+ * @property integer      $status
  *
  * @property MenuItemRole[] $roles
  */
 class MenuItem extends ActiveRecord
 {
+    const STATUS_DISABLED = 0;
+    const STATUS_HIDDEN   = 1;
+    const STATUS_ACTIVE   = 2;
     /**
      * @inheritdoc
      */
@@ -36,7 +40,7 @@ class MenuItem extends ActiveRecord
     {
         return [
             [['title', 'url', 'menu_id'], 'required'],
-            [['sort', 'parent_id'], 'integer'],
+            [['sort', 'parent_id', 'status'], 'integer'],
             [['title', 'url', 'options', 'before_label', 'after_label'], 'string', 'max' => 255],
             [
                 ['id'],
@@ -71,6 +75,7 @@ class MenuItem extends ActiveRecord
             'sort'         => Yii::t('smy.menu', 'Sort'),
             'parent_id'    => Yii::t('smy.menu', 'Parent'),
             'menu_id'      => Yii::t('smy.menu', 'Menu'),
+            'status'       => Yii::t('smy.menu', 'Status'),
         ];
     }
 
@@ -101,7 +106,7 @@ class MenuItem extends ActiveRecord
             $query->where(['!=', 'id', $id]);
         }
 
-        return ArrayHelper::map($query->orderBy('id')->asArray()->all(), 'id', 'title');
+        return ArrayHelper::map($query->where(['!=', 'status', self::STATUS_DISABLED])->orderBy('id')->asArray()->all(), 'id', 'title');
     }
 
     /**
@@ -110,6 +115,9 @@ class MenuItem extends ActiveRecord
      */
     public function beforeSave($insert)
     {
+        if (empty($this->status)) {
+            $this->status = self::STATUS_DISABLED;
+        }
         //todo сделать более гибко!
 
         $before_label = $this->before_label;
@@ -134,5 +142,17 @@ class MenuItem extends ActiveRecord
     public function getParent()
     {
         return $this->hasOne(MenuItem::className(), ['id' => 'parent_id']);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getStatusArray()
+    {
+        return [
+            self::STATUS_HIDDEN   => Yii::t('smy.menu', 'Hidden'),
+            self::STATUS_DISABLED => Yii::t('smy.menu', 'Disabled'),
+            self::STATUS_ACTIVE   => Yii::t('smy.menu', 'Active'),
+        ];
     }
 }
