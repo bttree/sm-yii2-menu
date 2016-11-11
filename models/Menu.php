@@ -141,16 +141,18 @@ class Menu extends \yii\db\ActiveRecord
                                           ]);
         }
 
+        $menu_items_request->andWhere([
+                                          MenuItem::tableName() .'.status' => MenuItem::STATUS_ACTIVE
+                                      ]);
+
         $menu_items_request->groupBy('menu_item.id')->orderBy('menu_item.sort');
 
         $menu_items = ArrayHelper::toArray($menu_items_request->all(),
                                            [
                                                'bttree\smymenu\models\MenuItem' => [
                                                    'label' => function ($menu_item) {
-                                                       return  $menu_item->before_label
-                                                               .'<p>'.
-                                                               $menu_item->title
-                                                               .'</p>'.
+                                                       return  $menu_item->before_label.
+                                                               $menu_item->title.
                                                                $menu_item->after_label;
                                                    },
                                                    'url'   => function ($menu_item) {
@@ -166,11 +168,45 @@ class Menu extends \yii\db\ActiveRecord
                                                ],
                                            ]);
 
+        self::setActiveProperty($menu_items);
+
         if(empty($menu_items)) {
             Yii::warning('Empty menu by code: '. $code);
         }
+
         return $menu_items;
     }
+
+    /**
+     * @param array  $menu_items
+     * @param string $class_name
+     * @return bool
+     */
+    public static function setActiveProperty($menu_items, $class_name = 'active')
+    {
+        $controller = Yii::$app->controller->id;
+        $action     = Yii::$app->controller->action->id;
+        $module     = Yii::$app->controller->module->id;
+
+        $result     = [];
+        foreach ($menu_items as $item) {
+            if (self::setActiveProperty($item['items'])) {
+                $item['option'] = ['class' => $class_name];
+                $result[] = $item;
+                
+                return true;
+            } elseif (Yii::$app->urlManager->createUrl($module . '/' . $controller . '/' . $action) ==
+                      Yii::$app->urlManager->createUrl($item['url'])
+            ) {
+                $item['option'] = ['class' => $class_name];
+                $result[] = $item;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
     /**
      * @param  string  $code
