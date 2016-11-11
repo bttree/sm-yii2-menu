@@ -8,9 +8,11 @@ use bttree\smymenu\models\MenuItem;
 use bttree\smymenu\models\MenuItemSearch;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\Response;
 
 /**
  * MenuItemController implements the CRUD actions for MenuItem model.
@@ -121,16 +123,34 @@ class MenuItemController extends Controller
     {
         $model = $this->findModel($id);
 
+        $request = Yii::$app->request;
+        if($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+        }
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             $this->updateRoles($model->id);
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            if ($request->isAjax) {
+                return [
+                    'result' => true
+                ];
+            } else {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         } else {
-            return $this->render('update',
-                                 [
-                                     'model' => $model,
-                                 ]);
+            if ($request->isAjax) {
+                return [
+                    'result' => false,
+                    'errors' => $model->getErrors(),
+                ];
+            } else {
+                return $this->render('update',
+                                     [
+                                         'model' => $model,
+                                     ]);
+            }
         }
     }
 

@@ -142,7 +142,7 @@ class Menu extends \yii\db\ActiveRecord
         }
 
         $menu_items_request->andWhere([
-            MenuItem::tableName() .'.status' => MenuItem::STATUS_ACTIVE
+            '!=', MenuItem::tableName() .'.status', MenuItem::STATUS_DISABLED
         ]);
 
         $menu_items_request->groupBy('menu_item.id')->orderBy('menu_item.sort');
@@ -165,10 +165,12 @@ class Menu extends \yii\db\ActiveRecord
                             return [];
                         }
                     },
+                    'status'
                 ],
             ]);
 
         $menu_items = self::setActiveProperty($menu_items);
+//        $menu_items = self::removeHiddenItems($menu_items);
 
         if(empty($menu_items)) {
             Yii::warning('Empty menu by code: '. $code);
@@ -180,7 +182,7 @@ class Menu extends \yii\db\ActiveRecord
     /**
      * @param array  $menu_items
      * @param string $class_name
-     * @return bool
+     * @return array
      */
     public static function setActiveProperty($menu_items, $class_name = 'active')
     {
@@ -191,7 +193,6 @@ class Menu extends \yii\db\ActiveRecord
         $result     = [];
         foreach ($menu_items as $item) {
             $item['items'] = self::setActiveProperty($item['items']);
-            $isActive = false;
 
             foreach($item['items'] as $subitem)
             {
@@ -217,6 +218,20 @@ class Menu extends \yii\db\ActiveRecord
         return $result;
     }
 
+    /**
+     * @param  array $menu_items
+     * @return array
+     */
+    public static function removeHiddenItems($menu_items) {
+        $result = [];
+        foreach ($menu_items as $item) {
+            $item['items']      = self::removeHiddenItems($item['items']) ;
+            if($item['status'] == MenuItem::STATUS_ACTIVE) {
+                $result[] = $item;
+            }
+        }
+        return $result;
+    }
 
     /**
      * @param  string  $code

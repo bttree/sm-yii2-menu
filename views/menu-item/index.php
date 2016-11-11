@@ -12,6 +12,7 @@ use bttree\smymenu\models\MenuItem;
 
 $this->title                   = Yii::t('smy.menu', 'Menu Items');
 $this->params['breadcrumbs'][] = $this->title;
+$statuses = MenuItem::getStatusArray();
 ?>
 <div class="menu-item-index">
     <p>
@@ -32,6 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         return [
                             'asPopover' => false,
                             'size'      => 'sm',
+                            'inputFieldConfig' => ['inputOptions' => ['name' => 'MenuItem[status]']],
+                            'formOptions'      => [
+                                'action' => \yii\helpers\Url::to([
+                                                                     '/smymenu/menu-item/update',
+                                                                     'id' => $model->id
+                                                                 ]),
+                            ],
                         ];
                     }
                 ],
@@ -52,6 +60,31 @@ $this->params['breadcrumbs'][] = $this->title;
                         return isset($parent) ? 'ID:' . $parent->id . ' ' . $parent->title : '---';
                     },
                     'filter'    => MenuItem::getAllArrayForSelect()
+                ],
+                [
+                    'class'           => 'kartik\grid\EditableColumn',
+                    'attribute'       => 'status',
+                    'vAlign'          => 'middle',
+                    'value'           => function ($model) use ($statuses) {
+                        return $statuses[$model->status];
+                    },
+                    'filter'          => $statuses,
+                    'editableOptions' =>
+                        function ($model) use ($statuses) {
+                            return [
+                                'data'             => $statuses,
+                                'asPopover' => false,
+                                'inputType'        => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                                'displayValueConfig' => $statuses,
+                                'inputFieldConfig' => ['inputOptions' => ['name' => 'MenuItem[status]']],
+                                'formOptions'      => [
+                                    'action' => \yii\helpers\Url::to([
+                                                                         '/smymenu/menu-item/update',
+                                                                         'id' => $model->id
+                                                                     ]),
+                                ],
+                            ];
+                        },
                 ],
                 ['class' => 'yii\grid\ActionColumn'],
             ],

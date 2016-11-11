@@ -42,13 +42,13 @@ class MenuItem extends ActiveRecord
             [['title', 'url', 'menu_id'], 'required'],
             [['sort', 'parent_id', 'status'], 'integer'],
             [['title', 'url', 'options', 'before_label', 'after_label'], 'string', 'max' => 255],
-            [
-                ['id'],
-                'exist',
-                'skipOnError'     => true,
-                'targetClass'     => MenuItemRole::className(),
-                'targetAttribute' => ['id' => 'menu_item_id']
-            ],
+//            [
+//                ['id'],
+//                'exist',
+//                'skipOnError'     => true,
+//                'targetClass'     => MenuItemRole::className(),
+//                'targetAttribute' => ['id' => 'menu_item_id']
+//            ],
         ];
     }
     public function behaviors()
