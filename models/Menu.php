@@ -122,53 +122,53 @@ class Menu extends \yii\db\ActiveRecord
         );
 
         $menu_items_request->andWhere([
-                                          'parent_id' => $parent_id,
-                                      ]);
+            'parent_id' => $parent_id,
+        ]);
 
         if (!Yii::$app->user->isGuest) {
             $menu_items_request->andFilterWhere([
-                                                    'or',
-                                                    ['IS', 'role_yii', (new Expression('NULL'))],
-                                                    [
-                                                        'role_yii' => ArrayHelper::getColumn(
-                                                            Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
-                                                            'name')
-                                                    ]
-                                                ]);
+                'or',
+                ['IS', 'role_yii', (new Expression('NULL'))],
+                [
+                    'role_yii' => ArrayHelper::getColumn(
+                        Yii::$app->authManager->getPermissionsByUser(Yii::$app->user->getId()),
+                        'name')
+                ]
+            ]);
         } else {
             $menu_items_request->andWhere([
-                                              ['IS', 'role_yii', (new Expression('NULL'))],
-                                          ]);
+                ['IS', 'role_yii', (new Expression('NULL'))],
+            ]);
         }
 
         $menu_items_request->andWhere([
-                                          MenuItem::tableName() .'.status' => MenuItem::STATUS_ACTIVE
-                                      ]);
+            MenuItem::tableName() .'.status' => MenuItem::STATUS_ACTIVE
+        ]);
 
         $menu_items_request->groupBy('menu_item.id')->orderBy('menu_item.sort');
 
         $menu_items = ArrayHelper::toArray($menu_items_request->all(),
-                                           [
-                                               'bttree\smymenu\models\MenuItem' => [
-                                                   'label' => function ($menu_item) {
-                                                       return  $menu_item->before_label.
-                                                               $menu_item->title.
-                                                               $menu_item->after_label;
-                                                   },
-                                                   'url'   => function ($menu_item) {
-                                                       return [$menu_item->url];
-                                                   },
-                                                   'items' => function ($menu_item) use ($code, $all) {
-                                                       if($all) {
-                                                           return self::getMenu($code, $menu_item->id, true);
-                                                       } else {
-                                                           return [];
-                                                       }
-                                                   },
-                                               ],
-                                           ]);
+            [
+                'bttree\smymenu\models\MenuItem' => [
+                    'label' => function ($menu_item) {
+                        return  $menu_item->before_label.
+                        $menu_item->title.
+                        $menu_item->after_label;
+                    },
+                    'url'   => function ($menu_item) {
+                        return [$menu_item->url];
+                    },
+                    'items' => function ($menu_item) use ($code, $all) {
+                        if($all) {
+                            return self::getMenu($code, $menu_item->id, true);
+                        } else {
+                            return [];
+                        }
+                    },
+                ],
+            ]);
 
-        self::setActiveProperty($menu_items);
+        $menu_items = self::setActiveProperty($menu_items);
 
         if(empty($menu_items)) {
             Yii::warning('Empty menu by code: '. $code);
@@ -190,21 +190,31 @@ class Menu extends \yii\db\ActiveRecord
 
         $result     = [];
         foreach ($menu_items as $item) {
-            if (self::setActiveProperty($item['items'])) {
-                $item['option'] = ['class' => $class_name];
-                $result[] = $item;
-                
-                return true;
-            } elseif (Yii::$app->urlManager->createUrl($module . '/' . $controller . '/' . $action) ==
-                      Yii::$app->urlManager->createUrl($item['url'])
-            ) {
-                $item['option'] = ['class' => $class_name];
-                $result[] = $item;
-                return true;
+            $item['items'] = self::setActiveProperty($item['items']);
+            $isActive = false;
+
+            foreach($item['items'] as $subitem)
+            {
+                if(isset($subitem['options']))
+                {
+                    $item['options'] = ['class' => $class_name];
+                    break;
+                }
             }
+
+            if(!isset($item['options']))
+            {
+
+                if (Yii::$app->urlManager->createUrl($module . '/' . $controller . '/' . $action) == Yii::$app->urlManager->createUrl($item['url']))
+                {
+                    $item['options'] = ['class' => $class_name];
+                }
+            }
+
+            $result[] = $item;
         }
 
-        return false;
+        return $result;
     }
 
 
