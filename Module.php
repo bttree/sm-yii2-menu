@@ -16,6 +16,7 @@ class Module extends \yii\base\Module
 
     public $menuItemTemplate = '{before_label}<a href="{url}" >{label}</a>{after_label}';
     public $submenuTemplate;
+    public $menuItemSubmenuTemplate = '<ul>{items}</ul>';
 
     /**
      * @inheritdoc

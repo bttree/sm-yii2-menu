@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property integer      $sort
  * @property integer      $parent_id
  * @property integer      $status
+ * @property string       $submenuTemplate
  *
  * @property MenuItemRole[] $roles
  */
@@ -42,7 +43,7 @@ class MenuItem extends ActiveRecord
         return [
             [['title', 'url', 'menu_id'], 'required'],
             [['sort', 'parent_id', 'status'], 'integer'],
-            [['title', 'url', 'options', 'before_label', 'after_label', 'template'], 'string', 'max' => 255],
+            [['title', 'url', 'options', 'before_label', 'after_label', 'template', 'submenuTemplate'], 'string', 'max' => 255],
 //            [
 //                ['id'],
 //                'exist',
@@ -67,17 +68,18 @@ class MenuItem extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'           => Yii::t('smy.menu', 'ID'),
-            'title'        => Yii::t('smy.menu', 'Title'),
-            'url'          => Yii::t('smy.menu', 'Url'),
-            'options'      => Yii::t('smy.menu', 'Options'),
-            'before_label' => Yii::t('smy.menu', 'Before Label'),
-            'after_label'  => Yii::t('smy.menu', 'After Label'),
-            'sort'         => Yii::t('smy.menu', 'Sort'),
-            'parent_id'    => Yii::t('smy.menu', 'Parent'),
-            'menu_id'      => Yii::t('smy.menu', 'Menu'),
-            'status'       => Yii::t('smy.menu', 'Status'),
-            'template'     => Yii::t('smy.menu', 'Template'),
+            'id'              => Yii::t('smy.menu', 'ID'),
+            'title'           => Yii::t('smy.menu', 'Title'),
+            'url'             => Yii::t('smy.menu', 'Url'),
+            'options'         => Yii::t('smy.menu', 'Options'),
+            'before_label'    => Yii::t('smy.menu', 'Before Label'),
+            'after_label'     => Yii::t('smy.menu', 'After Label'),
+            'sort'            => Yii::t('smy.menu', 'Sort'),
+            'parent_id'       => Yii::t('smy.menu', 'Parent'),
+            'menu_id'         => Yii::t('smy.menu', 'Menu'),
+            'status'          => Yii::t('smy.menu', 'Status'),
+            'template'        => Yii::t('smy.menu', 'Template'),
+            'submenuTemplate' => Yii::t('smy.menu', 'Submenu Template'),
         ];
     }
 

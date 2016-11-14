@@ -30,8 +30,12 @@ use bttree\smymenu\models\MenuItemRole;
 
             <?= $form->field($model, 'before_label')->textInput() ?>
             <?= $form->field($model, 'after_label')->textInput() ?>
+            <?= $form->field($model, 'submenuTemplate')->textInput(['maxlength' => true]) ?>
+            <p class="hint"><?= Yii::t('smy.menu', 'Hint:') ?> <?= htmlspecialchars('"\n<ul>\n{items}\n</ul>\n"') ?></p>
             <?= $form->field($model, 'template')->textInput(['maxlength' => true]) ?>
             <p class="hint"><?= Yii::t('smy.menu', 'Hint:') ?> <?= htmlspecialchars('"{before_label}{label}{after_label}"') ?></p>
+            <?= $form->field($model, 'options')->textInput(['maxlength' => true]) ?>
+            <p class="hint"><?= Yii::t('smy.menu', 'Hint:') ?> <?= htmlspecialchars('"{"class":"active"}"') ?></p>
 
             <?= $form->field($model, 'sort')->textInput() ?>
 

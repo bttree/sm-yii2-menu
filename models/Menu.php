@@ -208,7 +208,20 @@ class Menu extends \yii\db\ActiveRecord
                         $template = str_replace("{before_label}", $menu_item->before_label, $template);
                         $template = str_replace("{after_label}",   $menu_item->after_label, $template);
                         return $template;
-                    }
+                    },
+                    'submenuTemplate' => function ($menu_item) {
+                        if(!empty($menu_item->submenuTemplate)) {
+                            return $menu_item->submenuTemplate;
+                        }
+                        return Yii::$app->getModule('smymenu')->menuItemSubmenuTemplate;
+                    },
+                    'options' => function ($menu_item) {
+                        if(!empty($menu_item->options)) {
+                            return json_decode($menu_item->options);
+                        } else {
+                            return [];
+                        }
+                    },
                 ],
             ]);
 
