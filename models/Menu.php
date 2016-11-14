@@ -113,7 +113,28 @@ class Menu extends \yii\db\ActiveRecord
      *
      * @return array
      */
-    public static function getMenu($code, $parent_id = null, $all = true)
+    public static function getMenu($code, $parent_id = null, $all = true) {
+
+        $menu_items = self::getMenuItemsRecursive($code, $parent_id, $all);
+
+        $menu_items = self::setActiveProperty($menu_items);
+
+        $menu_items = self::removeHiddenItems($menu_items);
+
+        if(empty($menu_items)) {
+            Yii::warning('Empty menu by code: '. $code);
+        }
+
+        return $menu_items;
+    }
+    /**
+     * @param  string  $code
+     * @param  integer $parent_id
+     * @param  boolean $all
+     *
+     * @return array
+     */
+    public static function getMenuItemsRecursive($code, $parent_id = null, $all = true)
     {
         $menu_items_request = MenuItem::find()->joinWith('menu')->joinWith('roles')->where(
             [
@@ -160,7 +181,7 @@ class Menu extends \yii\db\ActiveRecord
                     },
                     'items' => function ($menu_item) use ($code, $all) {
                         if($all) {
-                            return self::getMenu($code, $menu_item->id, true);
+                            return self::getMenuItemsRecursive($code, $menu_item->id, true);
                         } else {
                             return [];
                         }
@@ -168,13 +189,6 @@ class Menu extends \yii\db\ActiveRecord
                     'status'
                 ],
             ]);
-
-        $menu_items = self::setActiveProperty($menu_items);
-//        $menu_items = self::removeHiddenItems($menu_items);
-
-        if(empty($menu_items)) {
-            Yii::warning('Empty menu by code: '. $code);
-        }
 
         return $menu_items;
     }
@@ -231,15 +245,5 @@ class Menu extends \yii\db\ActiveRecord
             }
         }
         return $result;
-    }
-
-    /**
-     * @param  string  $code
-     * @param  integer $parent_id
-     *
-     * @return array
-     */
-    public static function getMenuTree($code, $parent_id) {
-        return self::getMenu($code, $parent_id);
     }
 }
