@@ -16,6 +16,9 @@ use bttree\smymenu\models\Menu;
 
         <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
 
+        <?= $form->field($model, 'submenuTemplate')->textInput(['maxlength' => true]) ?>
+        <p class="hint"><?= Yii::t('smy.menu', 'Hint:') ?> <?= htmlspecialchars('"\n<ul>\n{items}\n</ul>\n"') ?></p>
+
         <?= $form->field($model, 'status')->dropDownList(Menu::getStatusArray()) ?>
 
         <div class="form-group">

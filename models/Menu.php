@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  * @property integer    $id
  * @property string     $name
  * @property string     $code
+ * @property string     $submenuTemplate
  * @property integer    $status
  *
  * @property MenuItem[] $menuItems
@@ -37,7 +38,7 @@ class Menu extends \yii\db\ActiveRecord
         return [
             [['name', 'code', 'status'], 'required'],
             [['status'], 'integer'],
-            [['name', 'code'], 'string', 'max' => 255],
+            [['name', 'code', 'submenuTemplate'], 'string', 'max' => 255],
             ['code', 'unique', 'message' => 'This code has already been taken.'],
 
         ];
@@ -49,10 +50,12 @@ class Menu extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'     => Yii::t('smy.menu', 'ID'),
-            'name'   => Yii::t('smy.menu', 'Name'),
-            'code'   => Yii::t('smy.menu', 'Code'),
-            'status' => Yii::t('smy.menu', 'Status'),
+            'id'              => Yii::t('smy.menu', 'ID'),
+            'name'            => Yii::t('smy.menu', 'Name'),
+            'code'            => Yii::t('smy.menu', 'Code'),
+            'status'          => Yii::t('smy.menu', 'Status'),
+            'template'        => Yii::t('smy.menu', 'Template'),
+            'submenuTemplate' => Yii::t('smy.menu', 'Submenu template'),
         ];
     }
 
@@ -115,32 +118,44 @@ class Menu extends \yii\db\ActiveRecord
      */
     public static function getMenu($code, $parent_id = null, $all = true) {
 
-        $menu_items = self::getMenuItemsRecursive($code, $parent_id, $all);
+        $menu = self::findByCode($code);
 
+        if (!isset($menu)) {
+            Yii::warning('Menu ' . $code . ' not found!');
+            return [];
+        }
+        $menu_items = self::getMenuItemsRecursive($menu, $parent_id, $all);
         $menu_items = self::setActiveProperty($menu_items);
-
         $menu_items = self::removeHiddenItems($menu_items);
 
-        if(empty($menu_items)) {
-            Yii::warning('Empty menu by code: '. $code);
+        if (empty($menu_items)) {
+            Yii::warning('Empty menu by code: ' . $code);
         }
 
-        return $menu_items;
+
+        $result = [
+            'items' => $menu_items,
+        ];
+
+        $module = Yii::$app->getModule('smymenu')->menuItemTemplate;
+        if (!empty($menu->submenuTemplate)) {
+            $result['submenuTemplate'] = $menu->submenuTemplate;
+        } elseif(!empty($module->submenuTemplate)) {
+            $result['submenuTemplate'] = $module->submenuTemplate;
+        }
+
+        return $result;
     }
     /**
-     * @param  string  $code
+     * @param  \bttree\smymenu\models\Menu  $menu
      * @param  integer $parent_id
      * @param  boolean $all
      *
      * @return array
      */
-    public static function getMenuItemsRecursive($code, $parent_id = null, $all = true)
+    public static function getMenuItemsRecursive($menu, $parent_id = null, $all = true)
     {
-        $menu_items_request = MenuItem::find()->joinWith('menu')->joinWith('roles')->where(
-            [
-                'code'     => $code,
-            ]
-        );
+        $menu_items_request = $menu->getMenuItems()->joinWith('menu')->joinWith('roles');
 
         $menu_items_request->andWhere([
             'parent_id' => $parent_id,
@@ -172,21 +187,28 @@ class Menu extends \yii\db\ActiveRecord
             [
                 'bttree\smymenu\models\MenuItem' => [
                     'label' => function ($menu_item) {
-                        return  $menu_item->before_label.
-                        $menu_item->title.
-                        $menu_item->after_label;
+                        return $menu_item->title;
                     },
                     'url'   => function ($menu_item) {
                         return [$menu_item->url];
                     },
-                    'items' => function ($menu_item) use ($code, $all) {
+                    'items' => function ($menu_item) use ($menu, $all) {
                         if($all) {
-                            return self::getMenuItemsRecursive($code, $menu_item->id, true);
+                            return self::getMenuItemsRecursive($menu, $menu_item->id, true);
                         } else {
                             return [];
                         }
                     },
-                    'status'
+                    'status',
+                    'template' => function ($menu_item) {
+                        $template = $menu_item->template;
+                        if(empty($template)) {
+                            $template   = Yii::$app->getModule('smymenu')->menuItemTemplate;
+                        }
+                        $template = str_replace("{before_label}", $menu_item->before_label, $template);
+                        $template = str_replace("{after_label}",   $menu_item->after_label, $template);
+                        return $template;
+                    }
                 ],
             ]);
 

@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property string       $options
  * @property string       $before_label
  * @property string       $after_label
+ * @property string       $template
  * @property integer      $sort
  * @property integer      $parent_id
  * @property integer      $status
@@ -41,7 +42,7 @@ class MenuItem extends ActiveRecord
         return [
             [['title', 'url', 'menu_id'], 'required'],
             [['sort', 'parent_id', 'status'], 'integer'],
-            [['title', 'url', 'options', 'before_label', 'after_label'], 'string', 'max' => 255],
+            [['title', 'url', 'options', 'before_label', 'after_label', 'template'], 'string', 'max' => 255],
 //            [
 //                ['id'],
 //                'exist',
@@ -76,6 +77,7 @@ class MenuItem extends ActiveRecord
             'parent_id'    => Yii::t('smy.menu', 'Parent'),
             'menu_id'      => Yii::t('smy.menu', 'Menu'),
             'status'       => Yii::t('smy.menu', 'Status'),
+            'template'     => Yii::t('smy.menu', 'Template'),
         ];
     }
 

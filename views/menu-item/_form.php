@@ -30,6 +30,9 @@ use bttree\smymenu\models\MenuItemRole;
 
             <?= $form->field($model, 'before_label')->textInput() ?>
             <?= $form->field($model, 'after_label')->textInput() ?>
+            <?= $form->field($model, 'template')->textInput(['maxlength' => true]) ?>
+            <p class="hint"><?= Yii::t('smy.menu', 'Hint:') ?> <?= htmlspecialchars('"{before_label}{label}{after_label}"') ?></p>
+
             <?= $form->field($model, 'sort')->textInput() ?>
 
             <div class="form-group">
