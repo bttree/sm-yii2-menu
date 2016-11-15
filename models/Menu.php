@@ -249,6 +249,7 @@ class Menu extends \yii\db\ActiveRecord
                 if(isset($subitem['options']['class']))
                 {
                  if(preg_match('/\b'.$class_name.'\b/i',$subitem['options']['class'])){
+                     if(!isset($item['options']['class'])) $item['options']['class']="";
                      $item['options']['class'] = $item['options']['class'] . " " . $class_name;
                      break;
                     }
