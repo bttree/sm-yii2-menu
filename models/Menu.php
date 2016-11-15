@@ -241,7 +241,7 @@ class Menu extends \yii\db\ActiveRecord
 
         $result     = [];
         foreach ($menu_items as $item) {
-            $item['items'] = self::setActiveProperty($item['items']);
+            $item['items'] = self::setActiveProperty($item['items'], $class_name);
 
             foreach($item['items'] as $subitem)
             {
