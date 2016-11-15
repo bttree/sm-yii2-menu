@@ -245,19 +245,26 @@ class Menu extends \yii\db\ActiveRecord
 
             foreach($item['items'] as $subitem)
             {
-                if(isset($subitem['options']))
+                if(!isset($item['options'])) $item['options']=[];
+                if(isset($subitem['options']['class']))
                 {
-                    $item['options'] = ['class' => $class_name];
-                    break;
+                 if(preg_match('/\b'.$class_name.'\b/i',$subitem['options']['class'])){
+                     $item['options']['class'] = $item['options']['class'] . " " . $class_name;
+                     break;
+                    }
+
                 }
             }
 
-            if(!isset($item['options']))
+            if(!isset($item['options']['class']) || !preg_match('/\b'.$class_name.'\b/i',$item['options']['class']))
             {
 
                 if (Yii::$app->urlManager->createUrl($module . '/' . $controller . '/' . $action) == Yii::$app->urlManager->createUrl($item['url']))
                 {
-                    $item['options'] = ['class' => $class_name];
+                    if(!isset($item['options'])) $item['options']=[];
+                    if(!isset($item['options']['class'])) $item['options']['class']=[];
+
+                    $item['options']['class'] = $item['options']['class'] . " " . $class_name;
                 }
             }
 
