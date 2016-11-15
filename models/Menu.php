@@ -245,7 +245,7 @@ class Menu extends \yii\db\ActiveRecord
 
             foreach($item['items'] as $subitem)
             {
-                if(!isset($item['options'])) $item['options']=[];
+                if(!isset($subitem['options'])) $subitem['options']=[];
                 if(isset($subitem['options']['class']))
                 {
                  if(preg_match('/\b'.$class_name.'\b/i',$subitem['options']['class'])){
@@ -259,10 +259,10 @@ class Menu extends \yii\db\ActiveRecord
             if(!isset($item['options']['class']) || !preg_match('/\b'.$class_name.'\b/i',$item['options']['class']))
             {
 
-                if (Yii::$app->urlManager->createUrl($module . '/' . $controller . '/' . $action) == Yii::$app->urlManager->createUrl($item['url']))
+                if (Yii::$app->request->baseUrl ."/". Yii::$app->request->getPathInfo() == Yii::$app->urlManager->createUrl($item['url']))
                 {
                     if(!isset($item['options'])) $item['options']=[];
-                    if(!isset($item['options']['class'])) $item['options']['class']=[];
+                    if(!isset($item['options']['class'])) $item['options']['class']="";
 
                     $item['options']['class'] = $item['options']['class'] . " " . $class_name;
                 }
