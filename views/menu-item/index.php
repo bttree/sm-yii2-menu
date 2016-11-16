@@ -33,7 +33,7 @@ $statuses = MenuItem::getStatusArray();
                         return [
                             'asPopover' => false,
                             'size'      => 'sm',
-                            'inputFieldConfig' => ['inputOptions' => ['name' => 'MenuItem[status]']],
+                            'inputFieldConfig' => ['inputOptions' => ['name' => 'MenuItem[sort]']],
                             'formOptions'      => [
                                 'action' => \yii\helpers\Url::to([
                                                                      '/smymenu/menu-item/update',
