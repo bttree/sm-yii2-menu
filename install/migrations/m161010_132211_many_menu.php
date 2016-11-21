@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m161410_132211_many_menu extends Migration
+class m161010_132211_many_menu extends Migration
 {
     public function safeUp()
     {
