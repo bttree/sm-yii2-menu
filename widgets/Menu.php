@@ -16,14 +16,14 @@ class Menu extends BaseMenu
     {
         if (isset($item['url'])) {
             $template = ArrayHelper::getValue($item, 'template', $this->linkTemplate);
-            if(preg_match("/(https|http):\/\/(.*)/")){
+            if(preg_match("/(https|http):\/\/(.*)/i",$item['url'][0])){
                 return strtr($template, [
-                    '{url}' => Html::encode($item['url']),
+                    '{url}' => Html::encode($item['url'][0]),
                     '{label}' => $item['label'],
                 ]);
             }else{
                 return strtr($template, [
-                    '{url}' => Html::encode(Url::to($item['url'])),
+                    '{url}' => Html::encode(Url::to($item['url'],true)),
                     '{label}' => $item['label'],
                 ]);
             }
