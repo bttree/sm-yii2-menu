@@ -148,6 +148,18 @@ class MenuItem extends ActiveRecord
         return $this->hasOne(MenuItem::className(), ['id' => 'parent_id']);
     }
 
+    public function isActive()
+    {
+        $controller = Yii::$app->controller->id;
+        $action     = Yii::$app->controller->action->id;
+        $module     = Yii::$app->controller->module->id;
+
+        if (Yii::$app->request->baseUrl ."/". Yii::$app->request->getPathInfo() == Yii::$app->urlManager->createUrl($this->url))
+        {
+            return true;
+        }
+        return false;
+    }
     /**
      * @return array
      */
