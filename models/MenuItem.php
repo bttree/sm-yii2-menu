@@ -150,6 +150,10 @@ class MenuItem extends ActiveRecord
         return $this->hasOne(MenuItem::className(), ['id' => 'parent_id']);
     }
 
+    /*
+     * Проверяем пункт меню на текущий/нет
+     * Если true - проверям с action иначе - все экшены контроллера
+     */
     public function isActive($withAction = true)
     {
         if($withAction) {
