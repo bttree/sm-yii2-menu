@@ -5,6 +5,8 @@ namespace bttree\smymenu\models;
 use Yii;
 use \yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\web\Request;
+
 /**
  * This is the model class for table "menu_item".
  *
@@ -148,15 +150,29 @@ class MenuItem extends ActiveRecord
         return $this->hasOne(MenuItem::className(), ['id' => 'parent_id']);
     }
 
-    public function isActive()
+    public function isActive($withAction = true)
     {
-        $controller = Yii::$app->controller->id;
-        $action     = Yii::$app->controller->action->id;
-        $module     = Yii::$app->controller->module->id;
+        if($withAction) {
+            if (Yii::$app->request->baseUrl . "/" . Yii::$app->request->getPathInfo() == Yii::$app->urlManager->createUrl($this->url)) {
+                return true;
+            }
+        }
+        else{
+            $controller = Yii::$app->controller->id;
+            $module     = Yii::$app->controller->module->id;
 
-        if (Yii::$app->request->baseUrl ."/". Yii::$app->request->getPathInfo() == Yii::$app->urlManager->createUrl($this->url))
-        {
-            return true;
+            $request = new Request();
+            $request->setPathinfo($this->url);
+            $arr = explode('/',Yii::$app->urlManager->parseRequest($request)[0]);
+
+            if(count($arr)==2 && ($arr[0]==$controller || ($arr[0]==$module && $arr[1]==$controller)))
+            {
+                return true;
+            }
+            else if(count($arr)==3 && $arr[0]==$module && $arr[1]==$controller)
+            {
+                return true;
+            }
         }
         return false;
     }
