@@ -187,6 +187,8 @@ class Menu extends \yii\db\ActiveRecord
             [
                 'bttree\smymenu\models\MenuItem' => [
                     'label' => function ($menu_item) {
+                        $menu_item->title = self::evalPhpScript($menu_item->title);
+
                         return $menu_item->title;
                     },
                     'url'   => function ($menu_item) {
@@ -205,8 +207,13 @@ class Menu extends \yii\db\ActiveRecord
                         if(empty($template)) {
                             $template   = Yii::$app->getModule('smymenu')->menuItemTemplate;
                         }
+
+                        $menu_item->before_label = self::evalPhpScript($menu_item->before_label);
+                        $menu_item->after_label  = self::evalPhpScript($menu_item->after_label);
+
                         $template = str_replace("{before_label}", $menu_item->before_label, $template);
                         $template = str_replace("{after_label}",   $menu_item->after_label, $template);
+
                         return $template;
                     },
                     'submenuTemplate' => function ($menu_item) {
@@ -226,6 +233,26 @@ class Menu extends \yii\db\ActiveRecord
             ]);
 
         return $menu_items;
+    }
+
+    /**
+     * @param string $string
+     * @param string $match
+     * @return mixed
+     */
+    protected function evalPhpScript($string, $match = "/php:(.*)/i") {
+        $resultString = $string;
+
+        try {
+            preg_match($match, $string, $result);
+            if(isset($result[1])) {
+                $resultString = eval("return {$result[1]};");
+            }
+        } catch (\Exception $e) {
+            $resultString = $string;
+        }
+
+        return $resultString;
     }
 
     /**
