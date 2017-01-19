@@ -173,7 +173,7 @@ class Menu extends \yii\db\ActiveRecord
             ]);
         } else {
             $menu_items_request->andWhere([
-                ['IS', 'role_yii', (new Expression('NULL'))],
+                'IS', 'role_yii', (new Expression('NULL')),
             ]);
         }
 
