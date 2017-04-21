@@ -116,7 +116,7 @@ class Menu extends \yii\db\ActiveRecord
      *
      * @return array
      */
-    public static function getMenu($code, $parent_id = null, $all = true) {
+    public static function getMenu($code, $parent_id = null, $all = true, $activeCss = 'active') {
 
         $menu = self::findByCode($code);
 
@@ -125,7 +125,7 @@ class Menu extends \yii\db\ActiveRecord
             return [];
         }
         $menu_items = self::getMenuItemsRecursive($menu, $parent_id, $all);
-        $menu_items = self::setActiveProperty($menu_items);
+        $menu_items = self::setActiveProperty($menu_items, $activeCss);
         $menu_items = self::removeHiddenItems($menu_items);
 
         if (empty($menu_items)) {
